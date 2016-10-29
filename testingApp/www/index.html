@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- un-comment this code to enable service worker
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log('service worker installed'))
+          .catch(err => console.log('Error', err));
+      }
+    </script>-->
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter">
+
+    <ion-pane>
+      <ion-header-bar class="bar-dark">
+        <button class="button button-icon ion-minus-circled" ng-click="data.showDelete = !data.showDelete; data-showReorder = false;"></button>
+        <h1 class="title">List Test</h1>
+        <button class="button button-icon ion-navicon" ng-click="data.showReorder = !data.showReorder; data.showDelete = false;"></button>
+      </ion-header-bar>
+      <div class="bar bar-subheader item-input-inset bar-light">
+        <label class="item-input-wrapper">
+          <i class="icon ion-search placeholder-icon"></i>
+          <input type="search" placeholder="search">
+        </label>
+      </div>
+
+      <ion-content ng-controller="ListController" class="has-subheader" overflow-scroll="true"> 
+          <ion-list show-delete="data.showDelete" show-reorder="data.showReorder" can-swipe="listCanSwipe">
+            <ion-item ng-repeat="item in foods | filter: query" class="item-thumbnail-left item-text-wrap">
+              <img src="http://placehold.it/100x100" alt="Photo">
+              <h2>{{item.ndbno}}</h2>
+              <h2>{{item.name}}</h2>
+              <div ng-repeat="nutri in item.nutrients">
+                <h3>{{nutri.nutrient}} : {{nutri.value}} {{nutri.unit}}</h3>
+              </div>
+              <ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(item)">
+                
+              </ion-delete-button>
+              <ion-reorder-button class="ion-navicon"
+                        on-reorder="moveItem(item, $fromIndex, $toIndex)">
+              </ion-reorder-button>
+            </ion-item>
+          </ion-list>
+      </ion-content>
+
+      <ion-content>
+      </ion-content> 
+
+
+    </ion-pane>
+  </body>
+</html>
